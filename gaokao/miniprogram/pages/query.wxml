@@ -1,0 +1,144 @@
+<ad unit-id="adunit-6fa5e5a2b603acba"></ad>
+
+<!-- 下拉筛选框 -->
+<view class="page">
+
+  <view class="nav">
+    <view class="nav-son {{shownavindex == 1? 'active' : ''}}" bindtap="listqy" data-nav="1">
+      <view class="content">地区/院校</view>
+      <view class="icon"></view>
+    </view>
+    <view class="nav-son borders {{shownavindex == 2? 'active' : ''}}" bindtap="list" data-nav="2">
+      <view class="content">文理</view>
+      <view class="icon"></view>
+    </view>
+    <view class="nav-son {{shownavindex == 3? 'active' : ''}}" bindtap="listpx" data-nav="3">
+      <view class="content">批次</view>
+      <view class="icon"></view>
+    </view>
+  </view>
+
+
+  <!-- 地区/院校 -->
+  <view class="quyu {{qyopen ? 'slidown' : 'slidup'}} {{qyshow ? 'disappear':''}}">
+
+    <view class="qy quyu-left">
+      <view class="{{select1 == index ? 'current' : ''}}" wx:for="{{cityleft}}" bindtap="selectleft" data-city='{{index}}' wx:key="key">
+        {{index}}
+      </view>
+    </view>
+    <view class="qy quyu-center">
+      <view class="{{select2 == index ? 'current2' : ''}}" wx:for="{{citycenter}}" bindtap="selectcenter" data-city='{{index}}' wx:key="key">
+        {{index}}
+      </view>
+    </view>
+    <view class="qy quyu-right">
+      <view wx:for="{{cityright}}" class="{{select3 == index?'current3':''}}" bindtap='selectright' data-city="{{index}}"
+      wx:key="key">
+        <label>{{item}}</label>
+      </view>
+    </view>
+    <view class='form-btn'>
+      <button class='btn-reset' bindtap='quyuEmpty'>重置</button>
+      <button class='btn-submit' bindtap='submitFilter'>确定</button>
+    </view>
+  </view>
+  <!-- 文理筛选 -->
+  <view class="temp temp2 contentCenter {{nzopen ? 'slidown' : 'slidup'}} {{nzshow ? 'disappear':''}}">
+       <view wx:for="{{wl}}" bindtap='selectWL' data-index="{{index}}" class="pcTable {{wlIndex == index?'current4':''}}"
+       wx:key="key">
+      {{item}}
+    </view>
+
+  </view>
+
+
+  <!-- 批次筛选 -->
+  <view class="temp temp2 contentCenter {{pxopen ? 'slidown' : 'slidup'}} {{pxshow ? 'disappear':''}}">
+    <view wx:for="{{px}}" bindtap='selectPX' data-index="{{index}}" class="pcTable {{pxIndex == index?'current4':''}}"
+    wx:key="key">
+      {{item}}
+    </view>
+  </view>
+  <view class="fullbg {{isfull ?'fullopacity':''}}" bindtap="hidebg"></view>
+
+<view class="table" hidden='{{ischool}}'>
+<view class="tr bg-w">
+<view class="th">地区</view>
+ <view class="th">年份</view>
+ <view class="th">文理</view>
+ <view class="th">批次</view>
+<view class="th">分数线</view>
+
+ </view>
+
+ <block wx:for="{{resultData}}" wx:key="{[code]}">
+ <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+  <view class="fb">{{item.name}}</view>
+  <view class="td">{{item.year}}</view>
+  <view class="td">{{item.wl}}</view>
+  <view class="pc">{{item.pc}}</view>
+  <view class="td">{{item.score}}</view>
+
+ </view>
+ <view class="tr" wx:else>
+  <view class="fb">{{item.name}}</view>
+  <view class="td">{{item.year}}</view>
+  <view class="td">{{item.wl}}</view>
+  <view class="pc">{{item.pc}}</view>
+  <view class="td">{{item.score}}</view>
+ </view>
+ </block>
+</view>
+
+<view class="table" hidden='{{!ischool}}'>
+<view class="tr bg-w">
+<view class="th">院校</view>
+ <view class="th">年份</view>
+ <view class="th" bindtap='selectSY'>生源
+    <view class="icon2"></view>
+ </view>
+ <view class="th">文理</view>
+ <view class="th">批次</view>
+<view class="th">分数线</view>
+
+ </view>
+
+ <block wx:for="{{resultData}}" wx:key="{[code]}">
+ <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+  <view class="fb">{{item.name}}</view>
+  <view class="td">{{item.year}}</view>
+  <view class="td">{{item.stu_loc}}</view>
+  <view class="td">{{item.wl}}</view>
+  <view class="pc">{{item.pc}}</view>
+  <view class="td">{{item.score}}</view>
+
+ </view>
+ <view class="tr" wx:else>
+  <view class="fb">{{item.name}}</view>
+  <view class="td">{{item.year}}</view>
+  <view class="td">{{item.stu_loc}}</view>
+  <view class="td">{{item.wl}}</view>
+  <view class="pc">{{item.pc}}</view>
+  <view class="td">{{item.score}}</view>
+ </view>
+ </block>
+</view>
+
+<view hidden='{{hasdataFlag}}' class='nodata'>查询不到相关数据\r\n换个条件试试~</view>
+
+<!-- <image src='../images/up_to_top.png' class='goTop' bindtap="goTop" hidden='{{!floorstatus}}'></image> -->
+
+<!-- 弹出框 start -->
+<view class="dialog_screen" bindtap="hideModal" wx:if="{{showSYModalStatus}}"></view>
+<view animation="{{animationData}}" class="dialog_attr_box" wx:if="{{showSYModalStatus}}">
+  <view style='background:white;position: relative;overflow: hidden;'>
+  <view class='dialog_title'>请选择{{school_name}}的生源所在地</view>
+    <view wx:for="{{syList}}" wx:key="key" class='dialog_content'>
+        <view class="{{ index==syIndex?'type_pre':'type_nor'}}" bindtap='typeClick' data-index='{{index}}'>{{item}}</view>
+    </view>
+  </view>
+</view>
+<!-- 弹出框 end -->
+
+</view>

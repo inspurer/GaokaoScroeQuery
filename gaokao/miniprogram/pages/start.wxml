@@ -1,0 +1,24 @@
+<!--start.wxml-->
+<view class="container">
+  <view class="remind-box" wx:if="{{remind}}">
+   
+  </view>
+  
+  <block wx:else>
+    <image class="title" src="../images/logo.png"></image>
+    <view class="content">
+      <view class="hd" style="transform:rotateZ({{angle}}deg);">
+        <open-data class="logo" type="userAvatarUrl"></open-data>
+        <image class="wave" src="../images/wave.png" mode="aspectFill"></image>
+        <image class="wave wave-bg" src="../images/wave.png" mode="aspectFill"></image>
+      </view>
+      <view class="bd">
+      <text class="smalltitle">收录2008年以来\r\n高考录取分数线</text>
+        <view class="confirm-btn">
+          <button  lang="zh_CN" bindtap="goQuery">我要查询</button>
+        </view>
+        <view class="copyright">© {{year}}<text bindtap='goTeam'>月小水长</text>  倾情出品</view>
+      </view>
+    </view>
+  </block>
+</view>
